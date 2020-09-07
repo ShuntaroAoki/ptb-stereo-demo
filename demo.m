@@ -13,8 +13,8 @@ close all;
 %% Settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Paths to left and right eye images
-left_eye_image = 'stimuli/stereo_left.png';
-right_eye_image = 'stimuli/stereo_right.png';
+%left_eye_image = 'stimuli/stereo_left.png';
+%right_eye_image = 'stimuli/stereo_right.png';
 
 left_eye_image = 'stimuli/illcon_left.png';
 right_eye_image = 'stimuli/illcon_right.png';
