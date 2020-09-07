@@ -63,7 +63,7 @@ KbName('UnifyKeyNames');
 % When using 'Dual-Window stereo' mode (stereo_mode == 10; displaying left
 % and right images on different screens), you need some additional lines.
 %
-% See soure code of`StereoDemo` for mode details
+% See source code of`StereoDemo` for mode details.
 
 
 %% Initialize left and right eye images
