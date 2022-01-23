@@ -100,6 +100,15 @@ while 1
     Screen('SelectStereoDrawBuffer', wnd_ptr, 1); % Right buffer
     Screen('DrawTexture', wnd_ptr, tex_right);    % Draw right eye image
 
+    %% Draw text
+    Screen('SelectStereoDrawBuffer', wnd_ptr, 0);
+    Screen('DrawText', wnd_ptr, 'Press "q" to quit.', 20, 20, [0, 0, 0]);
+    Screen('DrawText', wnd_ptr, ['Image: ', left_eye_image], 20, 40, [0, 0, 0]);
+
+    Screen('SelectStereoDrawBuffer', wnd_ptr, 1);
+    Screen('DrawText', wnd_ptr, 'Press "q" to quit.', 20, 20, [0, 0, 0]);
+    Screen('DrawText', wnd_ptr, ['Image: ', left_eye_image], 20, 40, [0, 0, 0]);
+
     %% Flip screen
     t_flip = Screen('Flip', wnd_ptr);
 end
