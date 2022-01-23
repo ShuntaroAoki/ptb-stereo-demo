@@ -13,12 +13,13 @@ close all;
 %% Settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Paths to left and right eye images
-%left_eye_image = 'stimuli/stereo_left.png';
-%right_eye_image = 'stimuli/stereo_right.png';
+% left_eye_image = 'stimuli/stereo_left.png';
+% right_eye_image = 'stimuli/stereo_right.png';
 
-left_eye_image = 'stimuli/illcon_left.png';
-right_eye_image = 'stimuli/illcon_right.png';
+% left_eye_image = 'stimuli/rds_03636649_d6c6665366854e6abec99d5b4657d5b1_dot_size_1_dot_density_1.0_left.png';
+% right_eye_image = 'stimuli/rds_03636649_d6c6665366854e6abec99d5b4657d5b1_dot_size_1_dot_density_1.0_right.png';
 
+images_dir = 'stimuli';
 
 % Psychtoolbox stereo mode
 stereo_mode = 8;
@@ -52,6 +53,15 @@ addpath('./func');
 AssertOpenGL;
 KbName('UnifyKeyNames');
 
+% Image setup
+files = dir(fullfile(images_dir, '*_left.png'));
+images = {};
+for i = 1:length(files)
+    image_name = strrep(files(i).name, '_left.png', '');
+    images{end+1, 1} = image_name;
+end
+
+% PTB setup
 [scrn_num, wnd_ptr] = createWindow(stereo_mode, background);
 % `createWindow` is my custom function to initialize PTB screen with stereo
 % mode.
@@ -67,6 +77,11 @@ KbName('UnifyKeyNames');
 
 
 %% Initialize left and right eye images
+image_index = 1;
+
+left_eye_image = fullfile(images_dir, strcat(images{image_index}, '_left.png'));
+right_eye_image = fullfile(images_dir, strcat(images{image_index}, '_right.png'));
+
 img_left = imread(left_eye_image);
 img_right = imread(right_eye_image);
 
@@ -79,6 +94,29 @@ while 1
         if key_code(KbName(key_term))
             break;
         end
+        if key_code(KbName('j'))
+            image_index = image_index + 1;
+            if image_index > length(images)
+                image_index = 1;
+            end
+            left_eye_image = fullfile(images_dir, strcat(images{image_index}, '_left.png'));
+            right_eye_image = fullfile(images_dir, strcat(images{image_index}, '_right.png'));
+
+            img_left = imread(left_eye_image);
+            img_right = imread(right_eye_image);
+        end
+        if key_code(KbName('k'))
+            image_index = image_index - 1;
+            if image_index < 1
+                image_index = length(images);
+            end
+            left_eye_image = fullfile(images_dir, strcat(images{image_index}, '_left.png'));
+            right_eye_image = fullfile(images_dir, strcat(images{image_index}, '_right.png'));
+
+            img_left = imread(left_eye_image);
+            img_right = imread(right_eye_image);
+        end
+        
         KbReleaseWait;
     end
 
@@ -103,11 +141,11 @@ while 1
     %% Draw text
     Screen('SelectStereoDrawBuffer', wnd_ptr, 0);
     Screen('DrawText', wnd_ptr, 'Press "q" to quit.', 20, 20, [0, 0, 0]);
-    Screen('DrawText', wnd_ptr, ['Image: ', left_eye_image], 20, 40, [0, 0, 0]);
+    Screen('DrawText', wnd_ptr, ['Image: ', images{image_index}], 20, 40, [0, 0, 0]);
 
     Screen('SelectStereoDrawBuffer', wnd_ptr, 1);
     Screen('DrawText', wnd_ptr, 'Press "q" to quit.', 20, 20, [0, 0, 0]);
-    Screen('DrawText', wnd_ptr, ['Image: ', left_eye_image], 20, 40, [0, 0, 0]);
+    Screen('DrawText', wnd_ptr, ['Image: ', images{image_index}], 20, 40, [0, 0, 0]);
 
     %% Flip screen
     t_flip = Screen('Flip', wnd_ptr);
